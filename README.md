@@ -1,2 +1,2 @@
 # aeico.com
-aeico files associated with other team
+aeico files will be associated with other team Collaborators
