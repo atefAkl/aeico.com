@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Changa');
+@import url('https://fonts.googleapis.com/css?family=Markazi+Text');
+.navbar-dark .navbar-nav a.nav-link  {
+    color: #aaa;
+}
+.navbar-dark .navbar-nav a.nav-link:hover {
+    color: #fff;
+}

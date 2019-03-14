@@ -1,0 +1,55 @@
+h2 {
+	text-align: center;
+	margin: 10vh auto;
+}
+form {
+	margin: auto;
+	padding: 20px;
+	background-color: #eee;
+	width: 30vw;
+}
+form .input-group {
+	width: 100%;
+}
+form .input-group + .input-group {
+	margin-top: 10px;
+}
+form .input-group input {
+	width: 100%;
+	text-align: center;
+	color: #343a40;
+	transition: .2s all ease
+}
+form .input-group input[type=submit] {
+	font-weight: bold;
+
+}
+form .input-group input[type=submit]:hover {
+	background-color: #08618a;
+	color: white;
+}
+form .input-group #rem {
+	width: 10%;
+	height: 30px;
+	vertical-align: middle;
+	display: inline;
+}
+form .input-group label {
+	font-weight: bold;
+	cursor: pointer;
+}
+::-webkit-input-placeholder { /* Edge */
+    color: #90b1af;;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #90b1af;;
+}
+
+::placeholder {
+    color: #90b1af;;
+}
+.error {
+	width: 40%;
+	margin: 20px auto;
+}

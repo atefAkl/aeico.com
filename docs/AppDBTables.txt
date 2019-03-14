@@ -1,0 +1,169 @@
+DB Tables Names & Table Schemas
+
+app_users collate utf-8_general_ci engine=InnoDB (
+	user_id int unsigned not null primary key auto_increment,
+	user_name varchar(12) not null unique,
+	user_mail varchar(50) not null unique,
+	user_phone varchar(15) not null unique,
+	user_pass char(60) not null,
+	user_group_id tinyint(3) unsigned not null,
+	user_pos tinyint(2) not null,
+	user_reg date not null,
+	user_last_login date not null,
+	foreign key user_group_id references app_users_groups(user_group_id)
+	);
+
+app_users_profiles collate utf-8_general_ci engine=InnoDB (
+	user_id int unsigned not null primary key auto_increment,
+	user_fname varchar(16) not null,
+	user_mname varchar(16) not null,
+	user_family varchar(20) not null,
+	user_birth date,
+	user_image char(30),
+	user_address varchar(60),
+	foreign key user_id references app_users (user_id)
+	);
+
+app_users_groups collate utf-8_general_ci engine=InnoDB (
+	user_group_id tinyint(3) unsigned not null primary key auto_increment,
+	user_group_name varchar(50) not null unique
+	);
+
+app_users_privillages collate utf-8_general_ci engine=InnoDB (
+	user_privillage_id tinyint(3) unsigned not null primary key auto_increment,
+	user-privillage_name varchar(30) not null unique,
+	);
+
+app_users_Groups_privillages collate utf-8_general_ci engine=InnoDB (
+	users_Groups_privillage_id tinyint(3) unsigned not null primary key auto_increment,
+	user_privillage_id tinyint(3) unsigned not null,
+	user-group_id tinyint(3) unsigned not null,
+	foreign key user_privillage_id references app_users_privillages (user_privillage_id);
+	foreign key user_group_id references app_users_groups (user_group_id);
+	);
+
+Store Department
+
+app_products_cats (
+	product_cat_id int unsigned not null primary key auto_increment,
+	product_cat_name varchar(30) not null unique,
+	product_cat_image varchar(30)
+);
+app_products (
+	product_id int unsigned not null primary key auto_increment,
+	product_cat_id int unsigned not null,
+	product_name varchar(50) not null ,
+	product_image char(30) not null,
+	product_price decimal(7,2) not null,
+	product_quantity int not null,
+	product_barcode char(20),
+	foreign key product_cat_id references app_products_cats(product_cat_id)
+);
+
+app_clients (
+	client_id int unsigned not null primary key auto_increment,
+	client_name varchar(40) not null,
+	client_phone varchar(15) not null ,
+	client_email varchar(40) not null,
+	client_address varchar(50) not null
+);
+
+app_suppliers (
+	supplier_id int unsigned not null primary key auto_increment,
+	supplier_name varchar(40) not null,
+	supplier_phone varchar(15) not null ,
+	supplier_email varchar(40) not null,
+	supplier_address varchar(50) not null
+);
+
+app_expenses_cats (
+	expense_cat_id tinyint(3) unsigned not null primary key auto_increment,
+	expense_name varchar(40) not null unique,
+	expense_default_ammount decimal(7,2) not null
+);
+
+app_expenses_list_daily (
+	expense_id tinyint(11) unsigned not null primary key auto_increment,
+	expense_cat_id tinyint(3) unsigned not null,
+	expense_ammount decimal(7,2) not null,
+	expense_date_created datetime not null,
+	user_id int unsigned not null,
+	foreign key (expense_cat_id) references app_expences_cats (expense_cat_id),
+	foreign key (user_id) references app_users (user_id)
+);
+
+app_purchases_bills (
+	bill_id int unsigned not null primary key auto_increment,
+	supplier_id int unsigned not null,
+	user_id int unsigned not null,
+	bill_payment_type tinyint(1) not null,
+	bill_payment_status tinyint(1) not null,
+	bill_date_created datetime not null,
+	bill_discount decimal(8,2),
+	foreign key (supplier_id) references app_suppliers (supplier_id),
+	foreign key (user_id) references app_users (user_id)
+);
+
+app_purchases_bills_contents (
+	bill_content_id int unsigned not null primary key auto_increment,
+	product_id int unsigned not null,
+	bill_product_quantity tinyint(5) not null,
+	bill_id int unsigned not null,
+	bill_unit_price decimal(7,2),
+	foreign key (product_id) references app_products (product_id),
+	foreign key (bill_id) references app_purchases_bills (bill_id)
+);
+
+app_purchaces_bills_receipt (
+	bill_receipt_id int unsigned not null primary key auto_increment,
+	bill_id int unsigned not null,
+	bill_payment_type tinyint(1) unsigned not null,
+	bill_payment_ammount decimal(8,2) not null,
+	bill_payment_literal varchar(80) not null,
+	bill_bank_name varchar(40),
+	bill_bank_account varchar(20),
+	bill_check_number varchar(20),
+	bill_transfer_to varchar(40),
+	bill_receipt_created datetime not null,
+	user_id int unsigned not null,
+	foreign key (user_id) references app_users (user_id),
+	foreign key (bill_id) references app_purchases_bills (bill_id)
+);
+
+app_sales_bills (
+	bill_id int unsigned not null primary key auto_increment,
+	client_id int unsigned not null,
+	user_id int unsigned not null,
+	bill_payment_type tinyint(1) not null,
+	bill_payment_status tinyint(1) not null,
+	bill_date_created datetime not null,
+	bill_discount decimal(8,2),
+	foreign key (client_id) references app_suppliers (client_id),
+	foreign key (user_id) references app_users (user_id)
+);
+
+app_sales_bills_contents (
+	bill_content_id int unsigned not null primary key auto_increment,
+	product_id int unsigned not null,
+	bill_product_quantity tinyint(5) not null,
+	bill_id int unsigned not null,
+	bill_unit_price decimal(7,2),
+	foreign key (product_id) references app_products (product_id),
+	foreign key (bill_id) references app_sales_bills (bill_id)
+);
+
+app_sales_bills_receipt (
+	bill_receipt_id int unsigned not null primary key auto_increment,
+	bill_id int unsigned not null,
+	bill_payment_type tinyint(1) unsigned not null,
+	bill_payment_ammount decimal(8,2) not null,
+	bill_payment_literal varchar(80) not null,
+	bill_bank_name varchar(40),
+	bill_bank_account varchar(20),
+	bill_check_number varchar(20),
+	bill_transfer_to varchar(40),
+	bill_receipt_created datetime not null,
+	user_id int unsigned not null,
+	foreign key (user_id) references app_users (user_id),
+	foreign key (bill_id) references app_sales_bills (bill_id)
+);
